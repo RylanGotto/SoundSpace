@@ -24,7 +24,6 @@ interface AuthContextType {
   isSpotifyConnected: () => boolean;
   connectSpotify: () => Promise<void>;
   disconnectSpotify: () => void;
-  setSpotifyToken: (token: string | null) => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -36,7 +35,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [spotifyToken, setSpotifyToken] = useState(null);
 
   useEffect(() => {
     // Get initial session
@@ -98,11 +96,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     redirectToSpotifyAuth();
   };
 
-  const isSpotifyConnected = () => !!spotifyToken;
+  const isSpotifyConnected = () => localStorage.getItem("spotify_access_token");
 
   const disconnectSpotify = () => {
-    setSpotifyToken(null);
-    // Clear any stored tokens
+    localStorage.removeItem("spotify_access_token");
+    localStorage.removeItem("spotify_refresh_token");
+    localStorage.removeItem("spotify_token_expiry");
   };
 
   const value: AuthContextType = {
@@ -115,7 +114,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isSpotifyConnected,
     connectSpotify,
     disconnectSpotify,
-    setSpotifyToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

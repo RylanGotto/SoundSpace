@@ -5,9 +5,7 @@ import {
   exchangeCodeForToken,
   saveTokens,
 } from "../../services/spotify/spotifyAuth";
-import { useAuth } from "../../context";
 const SpotifyCallback = () => {
-  const { setSpotifyToken } = useAuth();
   const history = useHistory();
   const location = useLocation();
   const [status, setStatus] = useState("Processing...");
@@ -37,8 +35,7 @@ const SpotifyCallback = () => {
       try {
         const tokenData = await exchangeCodeForToken(code, state);
         saveTokens(tokenData);
-        setSpotifyToken(tokenData);
-        console.log(tokenData);
+
         setStatus("Authentication successful! Redirecting...");
         setTimeout(() => history.push("/playlist"), 1000); // v5
         // setTimeout(() => navigate('/dashboard'), 1000); // v6
@@ -51,7 +48,7 @@ const SpotifyCallback = () => {
     };
 
     handleCallback();
-  }, [location.search, history, setSpotifyToken]);
+  }, [location.search, history]);
 
   return (
     <div
