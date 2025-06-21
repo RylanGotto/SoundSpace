@@ -1,10 +1,11 @@
 import React from "react";
-import { Redirect, Route, Switch, Router } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { IonSplitPane, IonRouterOutlet } from "@ionic/react";
 import { useAuth } from "../../context/AuthContext";
 import SideMenu from "./SideMenu";
 import SpotifyLogin from "../../pages/Spotify/SpotifyLogin";
 import SpotifyCallback from "../../pages/Spotify/SpotifyCallback";
+import SpotifyDashboard from "../../pages/Spotify/SpotifyDashboard";
 
 // import { Playlist } from "../pages/Playlist";
 // import { JoinRoom } from "../pages/JoinRoom";
@@ -16,17 +17,17 @@ import { Login } from "../../pages/Login";
 import Home from "../../pages/Home";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+
 // Public routes that don't need authentication
 
 const PublicRoutes: React.FC = () => (
   <IonRouterOutlet>
     <Route exact path="/login" component={Login} />
     <Route path="/callback" component={SpotifyCallback} />
-    {/* Your login component */}
-
-    {/* <Route path="*">
+    <Route exact path="/dashboard" component={SpotifyDashboard} />
+    <Route path="*">
       <Redirect to="/login" />
-    </Route> */}
+    </Route>
   </IonRouterOutlet>
 );
 
@@ -37,17 +38,8 @@ const ProtectedRoutes: React.FC = () => (
     <IonRouterOutlet id="main-content">
       <Route exact path="/home" component={Home} />
       <Route path="/callback" component={SpotifyCallback} />
-
-      {/* <Route exact path="/playlist/:playlistId" component={Playlist} />
-      <Route exact path="/join_room">
-        <JoinRoom />
-      </Route>
-      <Route exact path="/create_room">
-        <CreateRoom />
-      </Route> */}
-
-      {/* Spotify routes - these might need auth too */}
       <Route exact path="/spotify" component={SpotifyLogin} />
+      <Route exact path="/dashboard" component={SpotifyDashboard} />
 
       {/* Default redirect */}
       <Route exact path="/">
@@ -61,14 +53,6 @@ const ProtectedRoutes: React.FC = () => (
 
 const AppContent: React.FC = () => {
   const { user, loading } = useAuth();
-  const history = useHistory();
-
-  useEffect(() => {
-    // Redirect to /login if user becomes null
-    if (!loading && !user && history.location.pathname !== "/login") {
-      history.replace("/login");
-    }
-  }, [user, loading, history]);
 
   if (loading) {
     return <div>Loading...</div>;

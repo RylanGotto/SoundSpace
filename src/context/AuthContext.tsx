@@ -11,7 +11,12 @@ import {
   signOut as authSignOut,
   getCurrentUser,
 } from "../services/authService";
-import { redirectToSpotifyAuth } from "../services/spotify/spotifyAuth";
+import {
+  isTokenValid,
+  clearTokens,
+  redirectToSpotifyAuth,
+} from "../services/spotify/spotifyAuth";
+import { useHistory } from "react-router-dom";
 
 interface AuthContextType {
   user: User | null;
@@ -23,7 +28,7 @@ interface AuthContextType {
   spotifyToken: string | null;
   isSpotifyConnected: () => boolean;
   connectSpotify: () => Promise<void>;
-  disconnectSpotify: () => void;
+  disconnectSpotify: (redirectPath) => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -96,12 +101,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     redirectToSpotifyAuth();
   };
 
-  const isSpotifyConnected = () => localStorage.getItem("spotify_access_token");
+  const isSpotifyConnected = () => isTokenValid();
 
-  const disconnectSpotify = () => {
-    localStorage.removeItem("spotify_access_token");
-    localStorage.removeItem("spotify_refresh_token");
-    localStorage.removeItem("spotify_token_expiry");
+  const disconnectSpotify = (history, redirectPath = "/") => {
+    clearTokens();
+    history.push(redirectPath);
   };
 
   const value: AuthContextType = {
@@ -110,7 +114,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loading,
     signOut,
     refreshUser,
-    spotifyToken,
     isSpotifyConnected,
     connectSpotify,
     disconnectSpotify,

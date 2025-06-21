@@ -37,7 +37,7 @@ const SpotifyCallback = () => {
         saveTokens(tokenData);
 
         setStatus("Authentication successful! Redirecting...");
-        setTimeout(() => history.push("/playlist"), 1000); // v5
+        setTimeout(() => history.push("/dashboard"), 1000); // v5
         // setTimeout(() => navigate('/dashboard'), 1000); // v6
       } catch (error) {
         console.error("Token exchange failed:", error);

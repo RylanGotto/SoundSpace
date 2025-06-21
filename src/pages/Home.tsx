@@ -1,31 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
+  IonButtons,
   IonContent,
   IonHeader,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
 } from "@ionic/react";
 import { useAuth } from "../context";
+import SpotifyDashboard from "./Spotify/SpotifyDashboard";
 const Home: React.FC = () => {
-  const { isSpotifyConnected, disconnectSpotify } = useAuth();
+  const { user } = useAuth();
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>
-            Home {isSpotifyConnected() ? "Connected" : "Not Connected"}
-            <IonButton onClick={disconnectSpotify}>
-              Disconnect Spotify
-            </IonButton>
-          </IonTitle>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Home </IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <IonContent className="ion-padding">
-        <h1>Home Component Works!</h1>
-        <IonButton>Test Button</IonButton>
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Welcome!</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <p>Hello, {user?.email}</p>
+            <p>You are successfully authenticated and can see the side menu.</p>
+          </IonCardContent>
+        </IonCard>
+      </IonContent>
+      <IonContent>
+        <SpotifyDashboard />
       </IonContent>
     </IonPage>
   );

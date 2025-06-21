@@ -19,12 +19,6 @@ const SpotifyLogin: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Connect Spotify</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
-
       <IonContent className="ion-padding">
         <div
           style={{
