@@ -96,20 +96,6 @@ const SideMenu: React.FC = () => {
       show: true,
     },
     {
-      id: "dashboard",
-      routerLink: "/dashboard",
-      icon: home,
-      label: "Dashboard",
-      show: true,
-    },
-    {
-      id: "Spotify",
-      routerLink: "/Spotify",
-      icon: home,
-      label: "Spotify",
-      show: true,
-    },
-    {
       id: "playlist",
       routerLink: `/playlist/${playlistId}`,
       icon: settings,

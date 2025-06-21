@@ -28,7 +28,7 @@ interface AuthContextType {
   spotifyToken: string | null;
   isSpotifyConnected: () => boolean;
   connectSpotify: () => Promise<void>;
-  disconnectSpotify: (redirectPath) => void;
+  disconnectSpotify: (history: any, redirectPath?: string) => void;
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

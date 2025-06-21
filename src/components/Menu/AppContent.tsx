@@ -12,7 +12,7 @@ import SpotifyDashboard from "../../pages/Spotify/SpotifyDashboard";
 // import { CreateRoom } from "../pages/CreateRoom";
 // import { SpotifyLogin } from "../pages/SpotifyLogin";
 // import { SpotifyCallback } from "../pages/SpotifyCallback";
-import { LoadingSpinner } from "../Util/LoadingSpinner";
+import CreateRoom from "../../pages/CreateRoom";
 import { Login } from "../../pages/Login";
 import Home from "../../pages/Home";
 import { useEffect } from "react";
@@ -23,8 +23,6 @@ import { useHistory } from "react-router-dom";
 const PublicRoutes: React.FC = () => (
   <IonRouterOutlet>
     <Route exact path="/login" component={Login} />
-    <Route path="/callback" component={SpotifyCallback} />
-    <Route exact path="/dashboard" component={SpotifyDashboard} />
     <Route path="*">
       <Redirect to="/login" />
     </Route>
@@ -38,15 +36,10 @@ const ProtectedRoutes: React.FC = () => (
     <IonRouterOutlet id="main-content">
       <Route exact path="/home" component={Home} />
       <Route path="/callback" component={SpotifyCallback} />
-      <Route exact path="/spotify" component={SpotifyLogin} />
-      <Route exact path="/dashboard" component={SpotifyDashboard} />
-
-      {/* Default redirect */}
+      <Route exact path="/create_room" component={CreateRoom} />
       <Route exact path="/">
         <Redirect to="/home" />
       </Route>
-
-      {/* Fallback */}
     </IonRouterOutlet>
   </IonSplitPane>
 );
